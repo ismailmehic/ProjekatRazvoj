@@ -651,4 +651,33 @@ BoxWithConstraints(modifier = Modifier.fillMaxSize().padding(contentPadding).pad
 
 ---
 
-Ova sekcija omogućava brzu orijentaciju u kodu i arhitekturi projekta, kao i lakše razumijevanje implementacije za svakog čitaoca ili recenzenta. 
+Ova sekcija omogućava brzu orijentaciju u kodu i arhitekturi projekta, kao i lakše razumijevanje implementacije za svakog čitaoca ili recenzenta.
+
+---
+
+## API-ji i datasetovi
+
+- **REST API**: Aplikacija koristi REST API za dohvat podataka o novorođenima i umrlima. API-jevi su dizajnirani tako da omogućavaju filtriranje, pretragu i paginaciju podataka, čime se smanjuje količina prenesenih podataka i ubrzava rad aplikacije.
+- **Retrofit**: Za komunikaciju sa API-jem koristi se Retrofit, koji omogućava jednostavno definisanje endpointa i automatsko mapiranje odgovora na Kotlin modele.
+- **Datasetovi**:
+    - **Novorođeni**: Sadrži podatke o broju novorođenih po opštini, instituciji, datumu i polu. Podaci se mogu filtrirati i sortirati po raznim kriterijima.
+    - **Umrli**: Sadrži podatke o broju umrlih po opštini, instituciji, datumu i polu. Takođe podržava filtriranje i sortiranje.
+    - **Favoriti**: Posebna tabela u lokalnoj bazi (Room) u kojoj se čuvaju zapisi koje je korisnik označio kao omiljene. Favoriti sadrže sve podatke kao i osnovni dataset, što omogućava rad offline i brzi prikaz.
+- **Lokalna baza (Room)**: Svi podaci dohvaćeni sa API-ja se keširaju u lokalnoj Room bazi. Prilikom gubitka interneta, aplikacija koristi podatke iz baze, a korisnik je obaviješten o offline režimu.
+- **Sinhronizacija**: Prilikom svakog pokretanja aplikacije ili ručnog osvježavanja, podaci se sinhronizuju sa serverom, a lokalna baza se ažurira.
+
+---
+
+## Upravljanje stanjem i performansama
+
+- **MVVM arhitektura**: Upravljanje stanjem je centralizovano u ViewModel sloju, koji koristi StateFlow za emitovanje promjena stanja UI-u. Svaki ekran ima svoj ViewModel koji sadrži logiku za dohvat, filtriranje, sortiranje i upravljanje greškama.
+- **StateFlow i MutableStateFlow**: Sva stanja (lista podataka, filteri, greške, loading) su predstavljena kao StateFlow objekti. UI se automatski recompose-uje na svaku promjenu stanja, što omogućava reaktivan i responzivan interfejs.
+- **UI state modeli**: Za svaki ekran postoji poseban data class koji opisuje trenutno stanje (npr. lista podataka, izabrani filteri, status učitavanja, greška). Ovo omogućava jednostavno testiranje i održavanje.
+- **Asinhroni rad (Coroutines)**: Svi zahtjevi prema mreži i bazi se izvršavaju u pozadini koristeći Kotlin Coroutines, čime se izbjegava blokiranje glavnog (UI) threada i osigurava glatko korisničko iskustvo.
+- **Keširanje i offline rad**: Podaci se keširaju u Room bazi, a UI uvijek prikazuje najnovije dostupne podatke. Prilikom gubitka interneta, korisnik i dalje može koristiti aplikaciju bez prekida.
+- **Paging i optimizacija prikaza**: Liste su optimizovane za prikaz velikog broja podataka, koriste se LazyColumn i pametno učitavanje podataka kako bi se smanjila potrošnja memorije i ubrzalo skrolanje.
+- **Recomposition kontrola**: Korištenje best-practices Compose-a (remember, derivedStateOf, key) za minimizaciju nepotrebnih recomposition-a i povećanje performansi.
+- **Error state i fallback**: Svaka greška (mrežna, bazna) se propagira kroz state modele i prikazuje korisniku, a aplikacija automatski prelazi na offline podatke kad je to moguće.
+- **Testiranje performansi**: Korišteni su alati za profilisanje i mjerenje performansi (Layout Inspector, Profiler) kako bi se osiguralo da aplikacija radi brzo i bez zastoja i na slabijim uređajima.
+
+--- 
