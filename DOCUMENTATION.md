@@ -120,23 +120,88 @@ Aplikacija koristi moderni Material 3 dizajn, Jetpack Compose za UI, Room za lok
 
 ### Onboarding ekran
 ![Početni ekran](screenshots/screenshot1.png)
-*Na ovom ekranu korisnik bira dataset koji želi pregledati: novorođeni ili umrli. Ekran je jednostavan, sa jasnim dugmadima i dobrodošlicom.*
+
+Ovaj ekran je prva tačka kontakta korisnika sa aplikacijom. Prikazuje jasnu dobrodošlicu i omogućava izbor između dva glavna dataset-a: novorođeni i umrli. Dizajn je minimalistički, sa velikim, preglednim dugmadima i centralno poravnatim tekstom, što olakšava korištenje na svim veličinama ekrana. Dugmad su dovoljno velika za udoban rad na svim uređajima, a kontrastne boje i jednostavan raspored omogućavaju lako snalaženje i korisnicima sa slabijim vidom ili motoričkim sposobnostima. Nakon odabira, korisnik se automatski preusmjerava na odgovarajuću listu podataka, čime se osigurava brz i intuitivan početak rada sa aplikacijom.
+
+---
 
 ### Lista podataka
 ![Lista novorođenih](screenshots/screenshot2.png)
-*Prikazuje sve podatke za izabrani dataset. Na vrhu je search bar, ispod su filteri (opština, godina, sortiranje). Svaki podatak prikazuje opštinu, instituciju, datum i ima ikonu za dodavanje u favorite. Navigacija na detalje je omogućena klikom na podatak.*
+
+Na ovom ekranu korisnik vidi listu svih zapisa za izabrani dataset. Na vrhu se nalazi search bar za brzu pretragu po opštini ili instituciji, što omogućava korisniku da odmah pronađe relevantne podatke. Ispod su filteri (opština, godina, sortiranje) implementirani kao pregledni i lako dostupni dropdown dugmići. Lista je jasno strukturirana: svaki podatak prikazuje opštinu, instituciju i datum, a desno je ikona za dodavanje ili uklanjanje iz favorita. Navigacija na detalje je omogućena klikom na bilo koji podatak. UI je prilagođen za rad na svim veličinama ekrana, a boje i tipografija su u skladu sa Material 3 dizajnom. Lista podržava beskonačno skrolanje i uvijek je glatka, čak i sa velikim brojem podataka.
+
+---
 
 ### Detalji podatka
 ![Detalji podatka](screenshots/screenshot3.png)
-*Detaljan prikaz podatka sa svim informacijama, mini bar chartom i dugmetom za dijeljenje. Responsive layout osigurava da je sve pregledno i na tabletu i na telefonu.*
+
+Ovaj ekran prikazuje sve detalje o izabranom zapisu. Prikazane su informacije o opštini, instituciji, datumu, broju muških i ženskih, ukupno, kao i mini bar chart koji vizualizuje podatke po polu. Na dnu ekrana nalazi se dugme za dijeljenje podatka, koje otvara standardni Android dijalog za dijeljenje. Layout je responsive: na tabletima i u landscape modu, podaci i grafikon su prikazani u dva stupca, dok je na telefonima sve u jednom stupcu. Sve informacije su jasno istaknute, a korisnik može lako podijeliti podatak ili ga dodati u favorite. Bar chart omogućava brzu vizualnu analizu odnosa između muških, ženskih i ukupnog broja.
+
+---
 
 ### Grafikon
 ![Grafikon](screenshots/screenshot4.png)
-*Prikazuje agregirane podatke po mjesecima u obliku bar charta. Brojevi su iznad stubića, mjeseci ispod, sve je responsive i prilagođeno veličini ekrana.*
+
+Na ovom ekranu korisnik vidi agregirane podatke po mjesecima, prikazane kao bar chart. Svaki stubić predstavlja jedan mjesec, iznad su brojevi, ispod su oznake mjeseci. Legenda i opis grafikona su jasno istaknuti, što korisniku omogućava da odmah razumije šta grafikon prikazuje. Prikaz je potpuno responsive: na širokim ekranima grafikon i legenda su u dva stupca, na uskim ekranima sve je u jednom stupcu. Ovaj ekran omogućava korisniku da brzo vizualno uporedi podatke kroz godinu, identifikuje trendove i sezonske promjene.
+
+---
 
 ### Favoriti
 ![Favoriti](screenshots/screenshot5.png)
-*Lista omiljenih podataka, omogućava brzi pristup i navigaciju na detalje.*
+
+Ovaj ekran prikazuje sve zapise koje je korisnik označio kao omiljene. Lista je identična kao glavna lista, ali prikazuje samo favorite. Omogućava brzi pristup i navigaciju na detalje svakog omiljenog podatka. Dodavanje i uklanjanje iz favorita je moguće direktno sa ovog ekrana, a svi favoriti su jasno označeni. UI je pregledan i omogućava korisniku da lako upravlja svojim omiljenim podacima, bez potrebe za dodatnim pretragama ili filtrima.
+
+---
+
+## Tehnički detalji i implementacija
+
+### Onboarding ekran
+- Implementiran kao Composable funkcija (`OnboardingScreen`).
+- Dugmad koriste `Button` ili `OutlinedButton` iz Material 3.
+- Navigacija se vrši pomoću Navigation Compose (`navController.navigate("list")` ili `navController.navigate("died_list")`).
+- UI je responsive zahvaljujući Modifier-ima i centriranju.
+- Nema potrebe za ViewModel-om jer je logika jednostavna i stateless.
+
+### Lista podataka
+- Prikaz koristi `LazyColumn` za efikasno renderovanje velikog broja stavki.
+- Filteri su OutlinedButton + DropdownMenu, povezani sa ViewModel-om.
+- Search bar je `OutlinedTextField` sa dvosmjernim bindingom na filter state.
+- Svaka stavka koristi `ListItem` iz Material 3.
+- Ikona za favorite koristi `IconButton` i reaguje na klik (poziva `toggleFavorite` iz ViewModel-a).
+- State management: svi filteri, search i sort su u ViewModel-u (`StateFlow`).
+- Navigacija na detalje: klik na stavku poziva `onItemClick(item.id)`.
+- Responsive layout: koristi Modifier.fillMaxWidth(), BoxWithConstraints za prilagodbu.
+- Podaci dolaze iz Room baze i/ili sa API-ja, kroz Repository sloj.
+- ViewModel automatski filtrira, sortira i emitira podatke na osnovu promjena stanja.
+
+### Detalji podatka
+- Ekran je Composable funkcija (`DetailsScreen` ili `DiedDetailsScreen`).
+- Podaci se dobijaju iz ViewModel-a (`selectedNewborn` ili `selectedDied`).
+- Bar chart je crtan pomoću `Canvas` u Compose-u.
+- Dijeljenje koristi Android `Intent.ACTION_SEND` (vidi primjer koda u prilogu).
+- Responsive layout: koristi `BoxWithConstraints` i prilagođava raspored prema širini ekrana.
+- Svi podaci su reaktivno vezani na ViewModel (StateFlow).
+- Dugme za favorite i dijeljenje su uvijek vidljivi i pristupačni.
+- Navigacija na ovaj ekran se vrši iz liste, sa prosljeđivanjem ID-a podatka.
+
+### Grafikon
+- Composable funkcija `ChartScreen`.
+- Bar chart je crtan pomoću `Canvas` i koristi dinamičke veličine.
+- Podaci se grupišu po mjesecima u ViewModel-u i prosljeđuju u Composable.
+- Responsive layout: koristi `BoxWithConstraints` i prilagođava raspored.
+- Legenda koristi `Canvas` i `Text` za prikaz boje i oznake.
+- Svi brojevi i oznake su centrirani i skaliraju se prema veličini ekrana.
+- State management: podaci dolaze iz ViewModel-a kao lista agregiranih vrijednosti.
+- Navigacija na ovaj ekran je omogućena iz donjeg bara (BottomBar).
+
+### Favoriti
+- Prikaz koristi `LazyColumn` i `ListItem` kao i glavna lista.
+- Podaci dolaze iz ViewModel-a (`favorites: StateFlow<List<DiedFavorite>>` ili `List<NewbornFavorite>`).
+- Klik na stavku vodi na detalje (koristi istu logiku kao i glavna lista).
+- Uklanjanje iz favorita poziva `toggleFavorite` iz ViewModel-a.
+- Responsive layout: koristi iste Modifier-e i BoxWithConstraints kao i ostali ekrani.
+- State management: favoriti su posebna tabela u Room bazi, sinhronizovani sa glavnim podacima.
+- Navigacija na ovaj ekran je omogućena iz donjeg bara (BottomBar) ili iz glavne liste.
 
 ---
 
