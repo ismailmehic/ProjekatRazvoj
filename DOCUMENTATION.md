@@ -48,23 +48,23 @@ Aplikacija koristi moderni Material 3 dizajn, Jetpack Compose za UI, Room za lok
 ## Screenshots (slike ekrana)
 
 ### 1. Početni ekran (odabir dataseta)
-![Početni ekran](./screenshot1.png)
+![Početni ekran](screenshots/screenshot1.png)
 *Dobrodošlica i izbor između novorođenih i umrlih.*
 
 ### 2. Lista novorođenih sa filterima i pretragom
-![Lista novorođenih](./screenshot2.png)
+![Lista novorođenih](screenshots/screenshot2.png)
 *Pretraga, filteri po opštini, godini i sortiranju, prikaz podataka i favoriti.*
 
 ### 3. Detalji podatka sa bar chartom i dijeljenjem
-![Detalji podatka](./screenshot3.png)
+![Detalji podatka](screenshots/screenshot3.png)
 *Detaljan prikaz, mini bar chart, dugme za dijeljenje.*
 
 ### 4. Grafikon (bar chart po mjesecima)
-![Grafikon](./screenshot4.png)
+![Grafikon](screenshots/screenshot4.png)
 *Agregirani prikaz broja novorođenih po mjesecima.*
 
 ### 5. Favoriti
-![Favoriti](./screenshot5.png)
+![Favoriti](screenshots/screenshot5.png)
 *Brzi pristup omiljenim podacima.*
 
 ---
@@ -481,23 +481,23 @@ BoxWithConstraints(modifier = Modifier.fillMaxSize().padding(contentPadding).pad
 ## Opis svakog ekrana sa screenshotom
 
 ### Onboarding ekran
-![Početni ekran](./screenshot1.png)
+![Početni ekran](screenshots/screenshot1.png)
 *Na ovom ekranu korisnik bira dataset koji želi pregledati: novorođeni ili umrli. Ekran je jednostavan, sa jasnim dugmadima i dobrodošlicom.*
 
 ### Lista podataka
-![Lista novorođenih](./screenshot2.png)
+![Lista novorođenih](screenshots/screenshot2.png)
 *Prikazuje sve podatke za izabrani dataset. Na vrhu je search bar, ispod su filteri (opština, godina, sortiranje). Svaki podatak prikazuje opštinu, instituciju, datum i ima ikonu za dodavanje u favorite. Navigacija na detalje je omogućena klikom na podatak.*
 
 ### Detalji podatka
-![Detalji podatka](./screenshot3.png)
+![Detalji podatka](screenshots/screenshot3.png)
 *Detaljan prikaz podatka sa svim informacijama, mini bar chartom i dugmetom za dijeljenje. Responsive layout osigurava da je sve pregledno i na tabletu i na telefonu.*
 
 ### Grafikon
-![Grafikon](./screenshot4.png)
+![Grafikon](screenshots/screenshot4.png)
 *Prikazuje agregirane podatke po mjesecima u obliku bar charta. Brojevi su iznad stubića, mjeseci ispod, sve je responsive i prilagođeno veličini ekrana.*
 
 ### Favoriti
-![Favoriti](./screenshot5.png)
+![Favoriti](screenshots/screenshot5.png)
 *Lista omiljenih podataka, omogućava brzi pristup i navigaciju na detalje.*
 
 ---
