@@ -12,19 +12,19 @@ Ova Android aplikacija je razvijena s ciljem da omogući jednostavan, brz i mode
 
 Aplikacija omogućava sljedeće funkcionalnosti:
 
-- **Odabir dataset-a**: Na početnom ekranu korisnik bira da li želi pregledati podatke o novorođenima ili umrlima.
-- **Prikaz liste podataka**: Prikaz svih zapisa za izabrani dataset, sa osnovnim informacijama (opština, institucija, datum).
-- **Pretraga**: Brza pretraga po opštini ili instituciji putem search bara.
-- **Filtriranje**: Mogućnost filtriranja podataka po opštini i godini, kroz pregledne dropdown filtere.
-- **Sortiranje**: Sortiranje podataka po datumu, ukupnom broju i opštini (uzlazno i silazno).
-- **Favoriti**: Dodavanje i uklanjanje zapisa iz omiljenih, sa posebnim ekranom za pregled favorita.
-- **Detaljan prikaz**: Prikaz svih detalja o pojedinačnom zapisu, uključujući mini bar chart (vizualizacija broja po polu).
-- **Dijeljenje podataka**: Mogućnost dijeljenja detalja zapisa putem drugih aplikacija (npr. Viber, e-mail, poruke).
-- **Grafikon**: Prikaz agregiranih podataka po mjesecima u obliku bar charta, sa jasno prikazanim vrijednostima i mjesecima.
-- **Responsivnost**: Svi ekrani su prilagođeni za rad na telefonima i tabletima, kao i za promjenu orijentacije (portrait/landscape).
-- **Moderni dizajn**: Korištenje Material 3 dizajna, jasnih boja, tipografije i animacija.
-- **Lokalna baza i rad bez interneta**: Podaci se keširaju u Room bazi, omogućavajući rad i bez aktivne internet konekcije.
-- **Sigurnost i performanse**: Korištenje najboljih praksi za upravljanje podacima, asinhroni rad sa Flow/Coroutines, odvajanje slojeva (MVVM).
+- **Odabir dataset-a**: Na početnom ekranu korisnik bira da li želi pregledati podatke o novorođenima ili umrlima. Ova funkcionalnost omogućava personalizovan i fokusiran rad, jer korisnik odmah bira relevantan skup podataka. Nakon izbora, aplikacija pamti izbor i vodi korisnika na odgovarajuću listu.
+- **Prikaz liste podataka**: Prikaz svih zapisa za izabrani dataset, sa osnovnim informacijama (opština, institucija, datum). Lista je optimizovana za brz prikaz i podržava beskonačno skrolanje. Svaka stavka je jasno odvojena, a korisnik može lako prepoznati relevantne informacije.
+- **Pretraga**: Brza pretraga po opštini ili instituciji putem search bara. Korisnik može unijeti dio naziva opštine ili institucije i odmah filtrirati prikazanu listu, što značajno ubrzava pronalaženje podataka.
+- **Filtriranje**: Mogućnost filtriranja podataka po opštini i godini, kroz pregledne dropdown filtere. Filteri su uvijek vidljivi i lako dostupni, a promjena filtera automatski ažurira prikaz.
+- **Sortiranje**: Sortiranje podataka po datumu, ukupnom broju i opštini (uzlazno i silazno). Korisnik može jednim klikom promijeniti način sortiranja, što omogućava brzo poređenje i analizu podataka.
+- **Favoriti**: Dodavanje i uklanjanje zapisa iz omiljenih, sa posebnim ekranom za pregled favorita. Favoriti su jasno označeni, a korisnik može brzo pristupiti najvažnijim podacima bez potrebe za ponovnim pretraživanjem ili filtriranjem.
+- **Detaljan prikaz**: Prikaz svih detalja o pojedinačnom zapisu, uključujući mini bar chart (vizualizacija broja po polu). Detalji su prikazani pregledno, sa jasnim ikonama i bojama, a bar chart omogućava brzu vizualnu analizu.
+- **Dijeljenje podataka**: Mogućnost dijeljenja detalja zapisa putem drugih aplikacija (npr. Viber, e-mail, poruke). Dijeljenje je omogućeno jednim klikom, a formatirani tekst sadrži sve ključne informacije.
+- **Grafikon**: Prikaz agregiranih podataka po mjesecima u obliku bar charta, sa jasno prikazanim vrijednostima i mjesecima. Grafikon je interaktivan i prilagođava se veličini ekrana, omogućavajući korisniku da lako uoči trendove i sezonske promjene.
+- **Responsivnost**: Svi ekrani su prilagođeni za rad na telefonima i tabletima, kao i za promjenu orijentacije (portrait/landscape). Layout se automatski prilagođava, a svi elementi ostaju pregledni i funkcionalni.
+- **Moderni dizajn**: Korištenje Material 3 dizajna, jasnih boja, tipografije i animacija. UI je prilagođen i osobama sa slabijim vidom (kontrast, veličina fonta).
+- **Lokalna baza i rad bez interneta**: Podaci se keširaju u Room bazi, omogućavajući rad i bez aktivne internet konekcije. Prilikom gubitka interneta, korisnik i dalje može pregledati prethodno učitane podatke.
+- **Sigurnost i performanse**: Korištenje najboljih praksi za upravljanje podacima, asinhroni rad sa Flow/Coroutines, odvajanje slojeva (MVVM). Svi podaci se obrađuju na siguran način, a aplikacija je otporna na greške i padove.
 
 ---
 
@@ -435,10 +435,47 @@ Aplikacija je modularna, skalabilna i spremna za proširenje. Korištenjem MVVM 
 
 ---
 
+## Korištene tehnologije
+
+- **Kotlin** – Glavni programski jezik za razvoj Android aplikacija, moderan, siguran i podržava sve napredne funkcionalnosti.
+- **Jetpack Compose** – Deklarativni UI framework za izradu modernih, responzivnih i prilagodljivih korisničkih interfejsa.
+- **Room** – ORM biblioteka za rad sa lokalnom SQLite bazom, omogućava jednostavno čuvanje i dohvat podataka.
+- **Retrofit** – HTTP klijent za komunikaciju sa REST API-jem, koristi Moshi za parsiranje JSON-a.
+- **Coroutines & Flow** – Za asinhroni rad, reaktivno emitovanje i obradu podataka, omogućava glatko korisničko iskustvo bez blokiranja UI-a.
+- **Material 3** – Najnoviji dizajn sistem za Android, sa podrškom za tamni/svijetli mod, tipografiju i boje.
+- **Navigation Compose** – Za deklarativnu i sigurnu navigaciju između ekrana.
+- **StateFlow & MutableStateFlow** – Za reaktivno upravljanje stanjem u ViewModel-ima.
+- **Gradle (KTS)** – Za upravljanje zavisnostima i build procesom.
+- **Android Lifecycle** – Za pravilno upravljanje životnim ciklusom komponenti.
+
+---
+
+## Error handling i prikaz grešaka
+
+- **Try/Catch blokovi**: Svi mrežni i bazni pozivi su obavijeni try/catch blokovima kako bi se spriječio pad aplikacije.
+- **ViewModel error state**: Svaki ViewModel ima stanje za grešku (npr. `DiedUiState.Error`), koje UI može prikazati korisniku.
+- **Prikaz grešaka u UI-u**: Greške se prikazuju kao poruke na ekranu (npr. crveni tekst ili snackbar), sa jasnim objašnjenjem (npr. "Greška: Nema interneta").
+- **Fallback na lokalnu bazu**: Ako mrežni poziv ne uspije, aplikacija automatski koristi podatke iz Room baze.
+- **Offline rad**: Korisnik može pregledati podatke i bez interneta, a aplikacija jasno prikazuje kada koristi keširane podatke.
+- **Logovanje grešaka**: Sve greške se mogu logovati za potrebe debugovanja (npr. Logcat).
+
+---
+
+## Verzijsko upravljanje i zavisnosti
+
+- **Git**: Za verzijsko upravljanje projektom, omogućava praćenje svih promjena, rad u timovima i vraćanje na prethodne verzije.
+- **Branching**: Razvoj se može odvijati na posebnom branchu (npr. `feature/novi-ekran`), a stabilne verzije se čuvaju na `main` ili `master` branchu.
+- **Remote repozitorijum**: Projekat se hostuje na GitHub-u ([https://github.com/ismailmehic/ProjekatRazvoj](https://github.com/ismailmehic/ProjekatRazvoj)).
+- **Gradle (build.gradle.kts)**: Svi dependency-i su definisani u Kotlin DSL fajlovima, sa jasno navedenim verzijama.
+- **libs.versions.toml**: Centralizovano upravljanje verzijama biblioteka radi lakšeg održavanja i nadogradnje.
+- **Automatsko preuzimanje zavisnosti**: Prilikom builda, Gradle automatski preuzima sve potrebne biblioteke.
+
+---
+
 ## Autor i datum
 
-- Autor: [OVDJE UPISATI IME I PREZIME]
-- Datum: [OVDJE UPISATI DATUM PREDJE]
+- Autor: ISMAIL MEHIĆ
+- Datum: 01.07.2025
 
 ---
 
