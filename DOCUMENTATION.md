@@ -2,6 +2,77 @@
 
 ---
 
+## Uvod
+
+Ova Android aplikacija je razvijena s ciljem da omogući jednostavan, brz i moderan pregled statističkih podataka o novorođenim i umrlim osobama na području Bosne i Hercegovine. Aplikacija je namijenjena širokom spektru korisnika – od građana, preko zdravstvenih i administrativnih radnika, do istraživača i studenata. Kroz intuitivan interfejs, korisnik može lako pretraživati, filtrirati, sortirati i analizirati podatke, kao i vizualizovati ih putem grafikona. Poseban naglasak je stavljen na responzivnost i prilagodljivost svim veličinama ekrana, kao i na upotrebu savremenih Android tehnologija (Jetpack Compose, Room, Retrofit, MVVM).
+
+---
+
+## Funkcionalnosti aplikacije
+
+Aplikacija omogućava sljedeće funkcionalnosti:
+
+- **Odabir dataset-a**: Na početnom ekranu korisnik bira da li želi pregledati podatke o novorođenima ili umrlima.
+- **Prikaz liste podataka**: Prikaz svih zapisa za izabrani dataset, sa osnovnim informacijama (opština, institucija, datum).
+- **Pretraga**: Brza pretraga po opštini ili instituciji putem search bara.
+- **Filtriranje**: Mogućnost filtriranja podataka po opštini i godini, kroz pregledne dropdown filtere.
+- **Sortiranje**: Sortiranje podataka po datumu, ukupnom broju i opštini (uzlazno i silazno).
+- **Favoriti**: Dodavanje i uklanjanje zapisa iz omiljenih, sa posebnim ekranom za pregled favorita.
+- **Detaljan prikaz**: Prikaz svih detalja o pojedinačnom zapisu, uključujući mini bar chart (vizualizacija broja po polu).
+- **Dijeljenje podataka**: Mogućnost dijeljenja detalja zapisa putem drugih aplikacija (npr. Viber, e-mail, poruke).
+- **Grafikon**: Prikaz agregiranih podataka po mjesecima u obliku bar charta, sa jasno prikazanim vrijednostima i mjesecima.
+- **Responsivnost**: Svi ekrani su prilagođeni za rad na telefonima i tabletima, kao i za promjenu orijentacije (portrait/landscape).
+- **Moderni dizajn**: Korištenje Material 3 dizajna, jasnih boja, tipografije i animacija.
+- **Lokalna baza i rad bez interneta**: Podaci se keširaju u Room bazi, omogućavajući rad i bez aktivne internet konekcije.
+- **Sigurnost i performanse**: Korištenje najboljih praksi za upravljanje podacima, asinhroni rad sa Flow/Coroutines, odvajanje slojeva (MVVM).
+
+---
+
+## Struktura projekta
+
+Projekat je organizovan na jasan i modularan način, što olakšava održavanje, testiranje i proširenje aplikacije. Glavne komponente i folderi su:
+
+```
+ProjekatRazvoj/
+├── app/
+│   ├── build.gradle.kts
+│   └── src/
+│       ├── main/
+│       │   ├── AndroidManifest.xml
+│       │   ├── java/com/example/projekatrazvoj/
+│       │   │   ├── db/           # Room baze i DAO interfejsi
+│       │   │   ├── model/        # Podaci, entiteti, DTO-ovi
+│       │   │   ├── network/      # Retrofit API servisi
+│       │   │   ├── repository/   # Repozitorijumi (logika pristupa podacima)
+│       │   │   ├── ui/           # Jetpack Compose ekrani i komponente
+│       │   │   │   ├── components/   # TopBar, BottomBar, zajedničke komponente
+│       │   │   │   └── theme/        # Boje, tipografija, teme
+│       │   │   ├── viewmodel/    # ViewModel-i za svaki dataset
+│       │   │   └── MainActivity.kt   # Ulazna tačka aplikacije
+│       │   └── res/              # Resursi (slike, stringovi, boje, teme)
+│       └── test/                 # Testovi
+├── gradle/                       # Gradle wrapper i konfiguracija
+├── screenshots/                  # Screenshots za dokumentaciju
+├── DOCUMENTATION.md              # Ova dokumentacija
+├── README.md                     # Kratki opis projekta
+└── ...
+```
+
+**Objašnjenje ključnih foldera i fajlova:**
+- `db/` – Sadrži Room baze i DAO interfejse za pristup lokalnim podacima.
+- `model/` – Definicije podataka, entiteta i DTO-ova za mrežu i bazu.
+- `network/` – Retrofit servisi za komunikaciju sa API-jem.
+- `repository/` – Repozitorijumi koji centralizuju pristup podacima (baza i mreža).
+- `ui/` – Svi Compose ekrani, komponente i teme. Podijeljeno na ekrane, zajedničke komponente i teme.
+- `viewmodel/` – ViewModel-i za upravljanje stanjem svakog ekrana/dataset-a.
+- `screenshots/` – Slike ekrana za dokumentaciju.
+- `DOCUMENTATION.md` – Detaljna tehnička i korisnička dokumentacija.
+- `README.md` – Kratki opis i uputstvo za pokretanje projekta.
+
+Ovakva struktura omogućava lako snalaženje, jasnu separaciju odgovornosti i brzo proširenje aplikacije novim funkcionalnostima ili dataset-ima.
+
+---
+
 ## Sadržaj
 - [Opis aplikacije i korisničkog iskustva](#opis-aplikacije-i-korisničkog-iskustva)
 - [Screenshots (slike ekrana)](#screenshots-slike-ekrana)
@@ -45,27 +116,27 @@ Aplikacija koristi moderni Material 3 dizajn, Jetpack Compose za UI, Room za lok
 
 ---
 
-## Screenshots (slike ekrana)
+## Opis svakog ekrana sa screenshotom
 
-### 1. Početni ekran (odabir dataseta)
+### Onboarding ekran
 ![Početni ekran](screenshots/screenshot1.png)
-*Dobrodošlica i izbor između novorođenih i umrlih.*
+*Na ovom ekranu korisnik bira dataset koji želi pregledati: novorođeni ili umrli. Ekran je jednostavan, sa jasnim dugmadima i dobrodošlicom.*
 
-### 2. Lista novorođenih sa filterima i pretragom
+### Lista podataka
 ![Lista novorođenih](screenshots/screenshot2.png)
-*Pretraga, filteri po opštini, godini i sortiranju, prikaz podataka i favoriti.*
+*Prikazuje sve podatke za izabrani dataset. Na vrhu je search bar, ispod su filteri (opština, godina, sortiranje). Svaki podatak prikazuje opštinu, instituciju, datum i ima ikonu za dodavanje u favorite. Navigacija na detalje je omogućena klikom na podatak.*
 
-### 3. Detalji podatka sa bar chartom i dijeljenjem
+### Detalji podatka
 ![Detalji podatka](screenshots/screenshot3.png)
-*Detaljan prikaz, mini bar chart, dugme za dijeljenje.*
+*Detaljan prikaz podatka sa svim informacijama, mini bar chartom i dugmetom za dijeljenje. Responsive layout osigurava da je sve pregledno i na tabletu i na telefonu.*
 
-### 4. Grafikon (bar chart po mjesecima)
+### Grafikon
 ![Grafikon](screenshots/screenshot4.png)
-*Agregirani prikaz broja novorođenih po mjesecima.*
+*Prikazuje agregirane podatke po mjesecima u obliku bar charta. Brojevi su iznad stubića, mjeseci ispod, sve je responsive i prilagođeno veličini ekrana.*
 
-### 5. Favoriti
+### Favoriti
 ![Favoriti](screenshots/screenshot5.png)
-*Brzi pristup omiljenim podacima.*
+*Lista omiljenih podataka, omogućava brzi pristup i navigaciju na detalje.*
 
 ---
 
@@ -475,30 +546,6 @@ BoxWithConstraints(modifier = Modifier.fillMaxSize().padding(contentPadding).pad
     }
 }
 ```
-
----
-
-## Opis svakog ekrana sa screenshotom
-
-### Onboarding ekran
-![Početni ekran](screenshots/screenshot1.png)
-*Na ovom ekranu korisnik bira dataset koji želi pregledati: novorođeni ili umrli. Ekran je jednostavan, sa jasnim dugmadima i dobrodošlicom.*
-
-### Lista podataka
-![Lista novorođenih](screenshots/screenshot2.png)
-*Prikazuje sve podatke za izabrani dataset. Na vrhu je search bar, ispod su filteri (opština, godina, sortiranje). Svaki podatak prikazuje opštinu, instituciju, datum i ima ikonu za dodavanje u favorite. Navigacija na detalje je omogućena klikom na podatak.*
-
-### Detalji podatka
-![Detalji podatka](screenshots/screenshot3.png)
-*Detaljan prikaz podatka sa svim informacijama, mini bar chartom i dugmetom za dijeljenje. Responsive layout osigurava da je sve pregledno i na tabletu i na telefonu.*
-
-### Grafikon
-![Grafikon](screenshots/screenshot4.png)
-*Prikazuje agregirane podatke po mjesecima u obliku bar charta. Brojevi su iznad stubića, mjeseci ispod, sve je responsive i prilagođeno veličini ekrana.*
-
-### Favoriti
-![Favoriti](screenshots/screenshot5.png)
-*Lista omiljenih podataka, omogućava brzi pristup i navigaciju na detalje.*
 
 ---
 
